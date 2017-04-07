@@ -155,14 +155,14 @@ public class DetailActivity extends AppCompatActivity implements
 
         if (savedInstanceState.containsKey(STATE_URI) &&
                 !savedInstanceState.getString(STATE_URI).equals("")) {
-            mCurrentItemUri = Uri.parse(savedInstanceState.getString(STATE_URI));
+            mCurrentImageUri = Uri.parse(savedInstanceState.getString(STATE_URI));
 
             ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
             viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    mImageView.setImageBitmap(getBitmapFromUri(mCurrentItemUri));
+                    mImageView.setImageBitmap(getBitmapFromUri(mCurrentImageUri));
                 }
             });
         }
@@ -229,10 +229,10 @@ public class DetailActivity extends AppCompatActivity implements
             // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
 
             if (resultData != null) {
-                mCurrentItemUri = resultData.getData();
+                mCurrentImageUri = resultData.getData();
                 Log.i(LOG_TAG, "Uri: " + mCurrentItemUri.toString());
 
-                mImageView.setImageBitmap(getBitmapFromUri(mCurrentItemUri));
+                mImageView.setImageBitmap(getBitmapFromUri(mCurrentImageUri));
             }
         } else if (requestCode == SEND_MAIL_REQUEST && resultCode == Activity.RESULT_OK) {
 
@@ -397,7 +397,7 @@ public class DetailActivity extends AppCompatActivity implements
         String supplierString = mSupplierInput.getText().toString().trim();
         String emailString = mEmailInput.getText().toString().trim();
         String quantityString = mQuantityInput.getText().toString().trim();
-        String imageString = mCurrentItemUri.toString();
+        String imageString = mCurrentImageUri.toString();
 
         //check if fields have data
         if (mCurrentItemUri == null &&

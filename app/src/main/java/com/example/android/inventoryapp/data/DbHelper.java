@@ -35,6 +35,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ItemContract.ItemEntry.COLUMN_ITEM_PRICE + " FLOAT NOT NULL, "
                 + ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
                 + ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER + " TEXT NOT NULL, "
+                + ItemContract.ItemEntry.COLUMN_ITEM_IMAGE + " TEXT NOT NULL, "
                 + ItemContract.ItemEntry.COLUMN_ITEM_EMAIL + " TEXT NOT NULL);";
 
         // Execute the SQL statement
