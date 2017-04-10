@@ -168,6 +168,7 @@ public class DetailActivity extends AppCompatActivity implements
         }
     }
 
+
     public Bitmap getBitmapFromUri(Uri uri) {
 
         if (uri == null || uri.toString().isEmpty())
@@ -397,7 +398,13 @@ public class DetailActivity extends AppCompatActivity implements
         String supplierString = mSupplierInput.getText().toString().trim();
         String emailString = mEmailInput.getText().toString().trim();
         String quantityString = mQuantityInput.getText().toString().trim();
-        String imageString = mCurrentImageUri.toString();
+        String imageString;
+        if (mCurrentImageUri != null) {
+            imageString = mCurrentImageUri.toString();
+        } else {
+            imageString = "android.resource://com.example.android.inventoryapp/drawable/tumble_weed";
+        }
+
         Log.v(LOG_TAG, "******Image uri: " + imageString);
 
         //check if fields have data
@@ -406,7 +413,8 @@ public class DetailActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(supplierString) &&
                 TextUtils.isEmpty(emailString) &&
-                TextUtils.isEmpty(quantityString)
+                TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(imageString)
                 ) {
             return; //if there are any values, don't need to create a new item
         }
@@ -531,7 +539,7 @@ public class DetailActivity extends AppCompatActivity implements
                 null,
                 null);
     }
-
+    @TargetApi(16)
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data == null || data.getCount() < 1) {
@@ -561,8 +569,20 @@ public class DetailActivity extends AppCompatActivity implements
             mEmailInput.setText(email);
             mQuantityInput.setText(Integer.toString(quantity));
 
-            Uri imageUri =  Uri.parse(imageUriString);
-            mImageView.setImageBitmap(getBitmapFromUri(imageUri));
+            final Uri imageUri =  Uri.parse(imageUriString);
+
+            if (imageUri == null) {
+                return;
+            } else {
+                ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        mImageView.setImageBitmap(getBitmapFromUri(imageUri));
+                    }
+                });
+            }
         }
     }
 
