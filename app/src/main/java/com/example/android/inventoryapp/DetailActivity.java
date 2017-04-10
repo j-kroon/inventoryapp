@@ -230,7 +230,7 @@ public class DetailActivity extends AppCompatActivity implements
 
             if (resultData != null) {
                 mCurrentImageUri = resultData.getData();
-                Log.i(LOG_TAG, "Uri: " + mCurrentItemUri.toString());
+                Log.i(LOG_TAG, "Uri: " + mCurrentImageUri.toString());
 
                 mImageView.setImageBitmap(getBitmapFromUri(mCurrentImageUri));
             }
@@ -398,6 +398,7 @@ public class DetailActivity extends AppCompatActivity implements
         String emailString = mEmailInput.getText().toString().trim();
         String quantityString = mQuantityInput.getText().toString().trim();
         String imageString = mCurrentImageUri.toString();
+        Log.v(LOG_TAG, "******Image uri: " + imageString);
 
         //check if fields have data
         if (mCurrentItemUri == null &&
@@ -519,7 +520,8 @@ public class DetailActivity extends AppCompatActivity implements
                 ItemContract.ItemEntry.COLUMN_ITEM_PRICE,
                 ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER,
                 ItemContract.ItemEntry.COLUMN_ITEM_EMAIL,
-                ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY };
+                ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemContract.ItemEntry.COLUMN_ITEM_IMAGE};
 
         //Executes Providers query on a background thread
         return new CursorLoader(this,
@@ -542,6 +544,7 @@ public class DetailActivity extends AppCompatActivity implements
             int supplierColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER);
             int emailColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_EMAIL);
             int quantityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY);
+            int imageColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_IMAGE);
 
             // Extract out the value from the Cursor for the given column index
             String item = data.getString(itemColumnIndex);
@@ -549,6 +552,7 @@ public class DetailActivity extends AppCompatActivity implements
             String supplier = data.getString(supplierColumnIndex);
             String email = data.getString(emailColumnIndex);
             int quantity = data.getInt(quantityColumnIndex);
+            String imageUriString = data.getString(imageColumnIndex);
 
             // Update the views on the screen with the values from the database
             mItemInput.setText(item);
@@ -557,6 +561,8 @@ public class DetailActivity extends AppCompatActivity implements
             mEmailInput.setText(email);
             mQuantityInput.setText(Integer.toString(quantity));
 
+            Uri imageUri =  Uri.parse(imageUriString);
+            mImageView.setImageBitmap(getBitmapFromUri(imageUri));
         }
     }
 
