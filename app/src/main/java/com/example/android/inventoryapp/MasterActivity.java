@@ -39,6 +39,7 @@ public class MasterActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+
         //find the list view
         ListView itemListView = (ListView) findViewById(R.id.list);
 
