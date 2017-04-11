@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Joseph Kroon on 4/3/2017.
@@ -161,6 +162,12 @@ public class ItemProvider extends ContentProvider {
     }
 
     private Uri insertItem(Uri uri, ContentValues values) {
+
+        String itemName = values.getAsString(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
+        String itemPrice = values.getAsString(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
+        if (itemName == null || itemPrice == null) {
+            throw new IllegalArgumentException("Please enter required information");
+        }
 
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();

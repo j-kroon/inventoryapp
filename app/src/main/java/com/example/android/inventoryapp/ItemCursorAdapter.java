@@ -43,10 +43,6 @@ public class ItemCursorAdapter extends CursorAdapter {
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
         final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
 
-        Button saleButton = (Button)view.findViewById(R.id.sale);
-        final int position = cursor.getPosition();
-
-
         //get the columns
         int nameColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
         int priceColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_PRICE);
@@ -62,25 +58,31 @@ public class ItemCursorAdapter extends CursorAdapter {
         priceTextView.setText(itemPrice);
         quantityTextView.setText(itemQuantity);
 
+        // get the button and cursor position. Set up click listener
+        Button saleButton = (Button)view.findViewById(R.id.sale);
+        final int position = cursor.getPosition();
         saleButton.setOnClickListener(new View.OnClickListener() {
 
             @TargetApi(19)
             @Override
             public void onClick(View v) {
 
+                //move the cursor to position of clicked button
                 cursor.moveToPosition(position);
 
+                //convert text quantity to int quantity for manipulation
                 int itemQuantityInt = Integer.parseInt(itemQuantity);
-                String newQuant;
+
                 if (itemQuantityInt != 0) {
                     itemQuantityInt -= 1;
-                    newQuant = Integer.toString(itemQuantityInt);
+                    //convert int quantity to text quantity for updating view and database
+                    String newQuant = Integer.toString(itemQuantityInt);
 
-
+                    //get the id for the specific item, for appending to larger URI
                     int itemIdColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry._ID);
                     final long itemId = cursor.getLong(itemIdColumnIndex);
 
-                    //update database
+                    // Get the current item URI, append item id, and update database
                     Uri mCurrentItemUri;
                     mCurrentItemUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI,  itemId);
 
@@ -91,6 +93,7 @@ public class ItemCursorAdapter extends CursorAdapter {
                     Log.v(LOG_TAG, "@@@@@@@@@@@ mCurrentItemUri is: " + mCurrentItemUri);
                     cr.update(mCurrentItemUri, values, null, null);
 
+                    //set the new value to the text view.
                     quantityTextView.setText(newQuant);
                 }
             }

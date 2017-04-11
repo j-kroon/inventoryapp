@@ -126,14 +126,6 @@ public class DetailActivity extends AppCompatActivity implements
         openImageSelector();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (mCurrentImageUri != null)
-            outState.putString(STATE_URI, mCurrentImageUri.toString());
-    }
-
     public void openImageSelector() {
         Intent intent;
 
@@ -147,6 +139,15 @@ public class DetailActivity extends AppCompatActivity implements
         intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mCurrentImageUri != null)
+            outState.putString(STATE_URI, mCurrentImageUri.toString());
+    }
+
 
     @TargetApi(16)
     @Override
@@ -225,9 +226,7 @@ public class DetailActivity extends AppCompatActivity implements
         // and the below code shouldn't run at all.
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            // The document selected by the user won't be returned in the intent.
-            // Instead, a URI to that document will be contained in the return intent
-            // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
+            // A URI for the image will be returned through the intent to the Inventory App
 
             if (resultData != null) {
                 mCurrentImageUri = resultData.getData();
@@ -320,11 +319,15 @@ public class DetailActivity extends AppCompatActivity implements
 
     //this method is called when the reorder button is pressed
     public void reOrder(View view) {
+        //get the info from the appropriate fields
         String email = mEmailInput.getText().toString();
         String subject = mItemInput.getText().toString();
         String supplier = mSupplierInput.getText().toString();
+
+        //build the message body from the input
         String body = "Dear " + supplier + ", \nPlease place an order for the following:\n\nItem: "
                 + subject + "\nAmount: ";
+
         composeEmail(email, subject, body);
     }
 
@@ -417,6 +420,13 @@ public class DetailActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(imageString)
                 ) {
             return; //if there are any values, don't need to create a new item
+        }
+
+        //validate user input prior to sending to the provider
+        if (TextUtils.isEmpty(itemString) ||
+                TextUtils.isEmpty(priceString)) {
+            Toast.makeText(this, "Please fill out required fields", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         //if there isn't data

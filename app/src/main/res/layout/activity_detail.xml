@@ -7,7 +7,6 @@
     android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
@@ -47,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item:"
+                android:text="@string/item"
                 android:textAppearance="@android:style/TextAppearance.Medium" />
 
             <EditText
@@ -55,14 +54,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:hint="Toothpaste"
+                android:hint="@string/required"
                 android:inputType="textCapWords"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price:"
+                android:text="@string/price"
                 android:textAppearance="@android:style/TextAppearance.Medium" />
 
             <EditText
@@ -70,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:hint="5.00"
+                android:hint="@string/required"
                 android:inputType="numberDecimal" />
 
             <TextView
@@ -84,7 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:hint="Tom's Toothpaste"
                 android:inputType="textCapWords" />
 
             <TextView
@@ -98,7 +96,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:hint="tomstoothpaste@clean.com"
                 android:inputType="textEmailAddress" />
         </LinearLayout>
 
