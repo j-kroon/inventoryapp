@@ -396,19 +396,18 @@ public class DetailActivity extends AppCompatActivity implements
 
     //Get input and save to database
     private void saveItem() {
+
+        if (mCurrentImageUri == null) {
+            displayToast(getResources().getString(R.string.req_image));
+            return;
+        }
+
         String itemString = mItemInput.getText().toString().trim();
         String priceString = mPriceInput.getText().toString().trim();
         String supplierString = mSupplierInput.getText().toString().trim();
         String emailString = mEmailInput.getText().toString().trim();
         String quantityString = mQuantityInput.getText().toString().trim();
-        String imageString;
-        if (mCurrentImageUri != null) {
-            imageString = mCurrentImageUri.toString();
-        } else {
-            imageString = "android.resource://com.example.android.inventoryapp/drawable/tumble_weed";
-        }
-
-        Log.v(LOG_TAG, "******Image uri: " + imageString);
+        String imageString = mCurrentImageUri.toString();
 
         //check if fields have data
         if (mCurrentItemUri == null &&
@@ -419,12 +418,17 @@ public class DetailActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(quantityString) &&
                 TextUtils.isEmpty(imageString)
                 ) {
-            return; //if there are any values, don't need to create a new item
+            return; //if there aren't any values, don't need to create a new item
         }
 
         //validate user input prior to sending to the provider
         if (TextUtils.isEmpty(itemString) ||
-                TextUtils.isEmpty(priceString)) {
+                TextUtils.isEmpty(priceString) ||
+                TextUtils.isEmpty(supplierString) ||
+                TextUtils.isEmpty(emailString) ||
+                TextUtils.isEmpty(quantityString) ||
+                TextUtils.isEmpty(imageString)
+                ) {
             displayToast(getResources().getString(R.string.req_fields));
             return;
         }

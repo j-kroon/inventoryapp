@@ -35,4 +35,5 @@
     <string name="add_item">Add an item to get started!</string>
     <string name="save">Save</string>
     <string name="tumbleweeds">tumbleweeds</string>
+    <string name="req_image">Please load an image</string>
 </resources>
