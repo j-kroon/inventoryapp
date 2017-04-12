@@ -23,7 +23,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_weight="1"
-                android:src="@drawable/tumble_weed"/>
+                android:src="@drawable/tumble_weed" />
 
             <Button
                 android:id="@+id/input_image"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:onClick="loadImage"
-                android:text="Load Image" />
+                android:text="@string/load_image" />
 
         </LinearLayout>
 
@@ -55,8 +55,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:hint="@string/required"
-                android:inputType="textCapWords"
-                />
+                android:inputType="textCapWords" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supplier:"
+                android:text="@string/supplier"
                 android:textAppearance="@android:style/TextAppearance.Medium" />
 
             <EditText
@@ -88,7 +87,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supplier Email:"
+                android:text="@string/supplier_email"
                 android:textAppearance="@android:style/TextAppearance.Medium" />
 
             <EditText
@@ -113,7 +112,7 @@
                 android:layout_gravity="center_vertical"
                 android:onClick="received"
                 android:padding="8dp"
-                android:text="Received" />
+                android:text="@string/received" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -124,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantity:"
+                    android:text="@string/quantity"
                     android:textAppearance="@android:style/TextAppearance.Medium" />
 
                 <TextView
@@ -134,8 +133,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="0"
                     android:textAppearance="@android:style/TextAppearance.Medium" />
-                <!--android:hint="10"-->
-                <!--android:inputType="number" />-->
+
             </LinearLayout>
 
             <Button
@@ -143,9 +141,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:onClick="sold"
                 android:padding="8dp"
-                android:text="Sold"
-                android:onClick="sold"/>
+                android:text="@string/sold" />
         </LinearLayout>
 
         <Button
@@ -153,9 +151,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Reorder"
             android:onClick="reOrder"
-            />
+            android:text="@string/reorder" />
 
     </LinearLayout>
 </ScrollView>

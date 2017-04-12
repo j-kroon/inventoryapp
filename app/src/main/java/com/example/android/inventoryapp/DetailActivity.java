@@ -93,14 +93,14 @@ public class DetailActivity extends AppCompatActivity implements
         //if new item
         if (mCurrentItemUri == null){
             //change the activity title
-            setTitle("Add a new item");
+            setTitle(getString(R.string.new_item));
             //don't need delete for new items
             invalidateOptionsMenu();
         }
         // if existing item
         else {
             //change the activity title
-            setTitle("Edit your item");
+            setTitle(getString(R.string.edit_item));
             //display current values in the editor
             getLoaderManager().initLoader(EXISTING_ITEM_LOADER, null, this);
         }
@@ -137,7 +137,7 @@ public class DetailActivity extends AppCompatActivity implements
         }
 
         intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -205,10 +205,10 @@ public class DetailActivity extends AppCompatActivity implements
             return bitmap;
 
         } catch (FileNotFoundException fne) {
-            Log.e(LOG_TAG, "Failed to load image.", fne);
+            Log.e(LOG_TAG, getString(R.string.image_fail), fne);
             return null;
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to load image.", e);
+            Log.e(LOG_TAG, getString(R.string.image_fail), e);
             return null;
         } finally {
             try {
@@ -252,14 +252,14 @@ public class DetailActivity extends AppCompatActivity implements
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int inputNumber = Integer.parseInt(input.getText().toString());
                 displayQuantity(inputNumber);
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -279,7 +279,7 @@ public class DetailActivity extends AppCompatActivity implements
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int inputNumber = Integer.parseInt(input.getText().toString());
@@ -287,7 +287,7 @@ public class DetailActivity extends AppCompatActivity implements
                 displayQuantity(negInputNumber);
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -325,8 +325,8 @@ public class DetailActivity extends AppCompatActivity implements
         String supplier = mSupplierInput.getText().toString();
 
         //build the message body from the input
-        String body = "Dear " + supplier + ", \nPlease place an order for the following:\n\nItem: "
-                + subject + "\nAmount: ";
+        String body = getString(R.string.dear) + supplier + getString(R.string.place_order)
+                + subject + getString(R.string.amount);
 
         composeEmail(email, subject, body);
     }
@@ -425,7 +425,7 @@ public class DetailActivity extends AppCompatActivity implements
         //validate user input prior to sending to the provider
         if (TextUtils.isEmpty(itemString) ||
                 TextUtils.isEmpty(priceString)) {
-            Toast.makeText(this, "Please fill out required fields", Toast.LENGTH_SHORT).show();
+            displayToast(getResources().getString(R.string.req_fields));
             return;
         }
 
@@ -444,9 +444,9 @@ public class DetailActivity extends AppCompatActivity implements
             Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI, values);
             //show success or failure based on newUri
             if (newUri == null) {
-                Toast.makeText(this, "There was an error", Toast.LENGTH_SHORT).show();
+                displayToast(getResources().getString(R.string.error));
             } else {
-                Toast.makeText(this, "Item saved successfully", Toast.LENGTH_SHORT).show();
+                displayToast(getResources().getString(R.string.item_success));
             }
         }
         //if item exists then update entry
@@ -454,12 +454,15 @@ public class DetailActivity extends AppCompatActivity implements
             int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
             //show success or failure based on newUri
             if (rowsAffected == 0) {
-                Toast.makeText(this, "There was an error", Toast.LENGTH_SHORT).show();
+                displayToast(getResources().getString(R.string.error));
             } else {
-                Toast.makeText(this, "Item saved successfully",
-                        Toast.LENGTH_SHORT).show();
+                displayToast(getResources().getString(R.string.item_success));
             }
         }
+    }
+
+    private void displayToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     //delete warning called when delete is pressed.
@@ -467,14 +470,14 @@ public class DetailActivity extends AppCompatActivity implements
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete this item?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.r_u_sure);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete
                 deleteItem();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
                 // and continue editing
@@ -498,12 +501,10 @@ public class DetailActivity extends AppCompatActivity implements
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
                 // If no rows were deleted, then there was an error with the delete.
-                Toast.makeText(this, "Could not delete.",
-                        Toast.LENGTH_SHORT).show();
+                displayToast(getResources().getString(R.string.delete_error));
             } else {
                 // Otherwise, the delete was successful and we can display a toast.
-                Toast.makeText(this, "Item was deleted",
-                        Toast.LENGTH_SHORT).show();
+                displayToast(getResources().getString(R.string.deleted));
             }
         }
         finish(); // Close the activity
@@ -513,9 +514,9 @@ public class DetailActivity extends AppCompatActivity implements
     private void showUnsavedChangesDialog(
             DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to discard changes?");
-        builder.setPositiveButton("Yes", discardButtonClickListener);
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.discard_confirm);
+        builder.setPositiveButton(R.string.yes, discardButtonClickListener);
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) { // if clicked no
                     dialog.dismiss();

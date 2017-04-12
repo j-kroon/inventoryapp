@@ -33,7 +33,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
-            android:text="Looks like nobody's home..."
+            android:text="@string/nobody_home"
             android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:paddingTop="8dp"
-            android:text="Add an item to get started!"
+            android:text="@string/add_item"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A2AAB0" />
     </RelativeLayout>
