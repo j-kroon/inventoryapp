@@ -33,4 +33,6 @@
     <string name="reorder">Reorder</string>
     <string name="nobody_home">Looks like nobody\'s home...</string>
     <string name="add_item">Add an item to get started!</string>
+    <string name="save">Save</string>
+    <string name="tumbleweeds">tumbleweeds</string>
 </resources>
